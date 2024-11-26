@@ -24,6 +24,38 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Bell, BookmarkPlus, Check, Edit, Facebook, Instagram, Linkedin, MessageSquare, Search, X } from 'lucide-react'
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+
+} from 'recharts';
+
+const events = [
+  { id: 'VOLL101', name: 'Jaguares vs Leones', attendance: 120, cupos: 150, date: '1/11/2024', type: 'Deportivo' },
+  { id: 'BASK102', name: 'Jaguares vs Real Estelí',  attendance: 120, cupos: 150, date: '5/11/2024', type: 'Deportivo' },
+  { id: 'CNCA202', name: 'Visita a Hospital', attendance: 80, cupos: 150, date: '2/11/2024', type: 'Voluntariado' },
+  { id: 'UNCF103', name: 'Donación de Libros', attendance: 120, cupos: 150, date: '10/11/2024', type: 'Donación' },
+  { id: 'CR104', name: 'Donación de Sangre',  attendance: 300, cupos: 300, date: '15/11/2024', type: 'Donación' },
+  { id: 'SOC107', name: 'Apoyo Comunitario',  attendance: 250, cupos: 200, date: '25/11/2024', type: 'Social' }
+];
+
+// Agrupar los eventos por tipo y sumar la asistencia y los cupos
+const groupedData = Object.values(events.reduce((acc: { [key: string]: { type: string, attendance: number, cupos: number } }, event) => {
+  if (!acc[event.type]) {
+    acc[event.type] = { type: event.type, attendance: 0, cupos: 0 };
+  }
+  acc[event.type].attendance += event.attendance || 0;
+  acc[event.type].cupos += event.cupos || 0;
+  return acc;
+}, {}));
+
+const mostAttendedEvents = [...events].sort((a, b) => b.attendance - a.attendance).slice(0, 5);
 
 export function VidaEstudiantilDashboard() {
   const [newEvent, setNewEvent] = useState({
@@ -88,7 +120,7 @@ export function VidaEstudiantilDashboard() {
 
       <main className="container mx-auto py-6 px-4">
         <Tabs defaultValue="anadir-eventos" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-white">
+          <TabsList className="grid w-full grid-cols-5 bg-white">
             <TabsTrigger value="anadir-eventos" className="data-[state=active]:bg-[#4A9B9B] data-[state=active]:text-white">
               Añadir Eventos
             </TabsTrigger>
@@ -101,6 +133,10 @@ export function VidaEstudiantilDashboard() {
             <TabsTrigger value="ajustes" className="data-[state=active]:bg-[#4A9B9B] data-[state=active]:text-white">
               Ajustes
             </TabsTrigger>
+            <TabsTrigger value="reporte" className="data-[state=active]:bg-[#4A9B9B] data-[state=active]:text-white">
+              Reporte
+            </TabsTrigger>
+
           </TabsList>
 
           <TabsContent value="anadir-eventos">
@@ -331,8 +367,53 @@ export function VidaEstudiantilDashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+            <TabsContent value="reporte">
+            <Card>
+              <CardHeader>
+              <CardTitle>Comparación de Asistencia a Eventos por Categoría</CardTitle>
+              </CardHeader>
+              <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={groupedData}>
+                <CartesianGrid strokeDasharray="4 4" />
+                <XAxis dataKey="type" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="attendance" fill="#4A9B9B" name="Asistencia" />
+                <Bar dataKey="cupos" fill="#4B9B" name="Cupos" />
+                </BarChart>
+              </ResponsiveContainer>
+              </CardContent>
+            </Card>
+            <Card className="mt-8">
+              <CardHeader>
+              <CardTitle>Eventos Más Asistidos</CardTitle>
+              </CardHeader>
+              <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={mostAttendedEvents} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="attendance" fill="#4A9B9B" name="Asistencia" />
+                </BarChart>
+              </ResponsiveContainer>
+              </CardContent>
+            </Card>
+            </TabsContent>
         </Tabs>
       </main>
     </div>
   )
 }
+
+/*            BarChart data={chartData}>
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="hours" fill="#4A9B9B" name="Horas" />
+                        <Bar dataKey="matches" fill="#4B9B" name="Partidos" />
+                      </BarChart> */

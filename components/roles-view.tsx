@@ -29,7 +29,7 @@ export function RolesView() {
               height={96} 
             />  
           </div>
-          <CardTitle className="text-2xl font-semibold">Bienvenid@s a MyHoursUAM</CardTitle>
+          <CardTitle className="text-2xl font-semibold">Bienvenides a MyHoursUAM</CardTitle>
           <p className="text-lg text-muted-foreground mt-2">Selecciona tu Rol</p>
         </CardHeader>
         <CardContent>

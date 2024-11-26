@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import UamLogo from "../assets/UAM-LOGO.png"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Select,
   SelectContent,
@@ -23,8 +23,49 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Bell, BookmarkPlus, Check, Download, Facebook, GraduationCap, Instagram, Linkedin, MessageSquare, Search, Trash2, X } from "lucide-react"
+import React from 'react';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+
+} from 'recharts';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ProfileReport from './ProfileReport';
+
 
 export function Dashboard() {
+
+  const userData = {
+    name: 'David Joel Sánchez Acevedo',
+    cif: '230203',
+    career: 'Ingeniería en Sistemas de la Información',
+    email: 'dsancheza@uamv.edu.ni',
+    phone: '+505 7515 1790',
+  };
+
+  const attendedEvents = [
+    { id: 'VOLL101', name: 'Jaguares vs Leones', hours: 0, matches: 2, date: '1/11/2024', type: 'Deportivo' },
+    { id: 'BASK102', name: 'Jaguares vs Real Estelí', hours: 0, matches: 2, date: '5/11/2024', type: 'Deportivo' },
+    { id: 'CNCA202', name: 'Visita a Hospital', hours: 4, matches: 0, date: '2/11/2024', type: 'Voluntariado' },
+    { id: 'UNCF103', name: 'Donación de Libros', hours: 2, matches: 0, date: '10/11/2024', type: 'Donación' },
+    { id: 'CR104', name: 'Donación de Sangre', hours: 5, matches: 0, date: '15/11/2024', type: 'Donación' },
+    { id: 'SOC107', name: 'Apoyo Comunitario', hours: 6, matches: 0, date: '25/11/2024', type: 'Social' }
+  ];
+
+  const totalHours = attendedEvents.reduce((sum, event) => sum + event.hours, 0);
+  const totalMatches = attendedEvents.reduce((sum, event) => sum + event.matches, 0);
+
+  const chartData = attendedEvents.map(event => ({
+    name: event.name,
+    hours: event.hours,
+    matches: event.matches
+  }));
   return (
     <div className="min-h-screen bg-[#f5f5f5]">
       <header className="bg-[#4A9B9B] text-white">
@@ -79,9 +120,9 @@ export function Dashboard() {
         </div>
       </nav>
 
-      <main className="container mx-auto py-6 px-4">
+      <main className="container mx-auto py-8 px-4">
         <Tabs defaultValue="eventos" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-white">
+          <TabsList className="grid w-full grid-cols-6 bg-white">
             <TabsTrigger value="eventos" className="data-[state=active]:bg-[#4A9B9B] data-[state=active]:text-white">
               Eventos
             </TabsTrigger>
@@ -96,6 +137,9 @@ export function Dashboard() {
             </TabsTrigger>
             <TabsTrigger value="ajustes" className="data-[state=active]:bg-[#4A9B9B] data-[state=active]:text-white">
               Ajustes
+            </TabsTrigger>
+            <TabsTrigger value="reporte" className="data-[state=active]:bg-[#4A9B9B] data-[state=active]:text-white">
+              Reporte
             </TabsTrigger>
           </TabsList>
 
@@ -122,7 +166,7 @@ export function Dashboard() {
                     <SelectContent>
                       <SelectItem value="extracurricular">Extracurricular</SelectItem>
                       <SelectItem value="volunteer">Voluntariado</SelectItem>
-                      <SelectItem value="partido">Partido</SelectItem>
+                      
                       
                     </SelectContent>
                   </Select>
@@ -267,12 +311,12 @@ export function Dashboard() {
                       <TableHead>Fecha</TableHead>
                       <TableHead>Nombre del Evento</TableHead>
                       <TableHead>ID</TableHead>
-                      <TableHead>Estado</TableHead>
                       <TableHead>Organizador</TableHead>
                       <TableHead>Beneficio</TableHead>
                       <TableHead>Tipo de evento</TableHead>
-                      <TableHead>Hora de envío</TableHead>
-                      <TableHead>Enviar Asistencia</TableHead>
+                      <TableHead>Estado de asistencia</TableHead>
+                      
+                      
                       
                   
                       
@@ -283,49 +327,53 @@ export function Dashboard() {
                       <TableCell>1/11/2024</TableCell>
                       <TableCell>Jaguares vs Leones </TableCell>
                       <TableCell>VOLL101</TableCell> 
-                      <TableCell>Asistidos</TableCell>
+                      
                       <TableCell>LNVF</TableCell>
                       <TableCell>2 Partidos</TableCell>
                       <TableCell>Partido</TableCell>
-                      <TableCell>Domingo 9:00 p.m - Lunes 9:20 p.m</TableCell>
+                      <TableCell>Confirmada</TableCell>
                       
-                      <TableCell>
-                        <Button variant="outline" size="sm">Disponible</Button>
-                      </TableCell>
+                      
+                      
                     </TableRow>
                     <TableRow>
                       <TableCell>5/11/2024</TableCell>
                       <TableCell>Jaguares vs Real Estelí</TableCell>
                       <TableCell>BASK102</TableCell> 
-                      <TableCell>Inscrito</TableCell>
+                     
                       <TableCell>LBM</TableCell>
                       <TableCell>6 Horas Laborales</TableCell>
                       <TableCell>Donacion</TableCell>
-                      <TableCell>Jueves 10:00 a.m - Jueves 10:20 p.m</TableCell>
-                      <TableCell>
-                        <Button variant="outline" size="sm" disabled>Disponible</Button>
-                      </TableCell>
+                      <TableCell>Enviada</TableCell>
+                      
+                      
                     </TableRow>
                     <TableRow>
                       <TableCell>2/11/2024</TableCell>
                       <TableCell>Visita a Hospital </TableCell>
                       <TableCell>CNCA202</TableCell> 
-                      <TableCell>Inscrito</TableCell>
+                      
                       <TableCell>CONANCA</TableCell>
                       <TableCell>4 Horas laborales</TableCell>
                       <TableCell>Voluntariado</TableCell>
-                      <TableCell>Viernes 10:00 a.m - Viernes 10:20 p.m</TableCell>
+                      <TableCell>Confirmada</TableCell>
+                      
 
-                      <TableCell>
-                        <Button variant="outline" size="sm" disabled>Disponible</Button>
-                      </TableCell>
+                      
                     </TableRow>
+                    
+                   
                     
                   </TableBody>
                   
+                  
                 </Table>
+                
               </CardContent>
-              
+
+              <CardFooter className="text-sm text-muted-foreground space-y-10">Si tiene alguna duda o inconveniente con su asistencia,
+                       por favor comunicarse con vida estudiantil</CardFooter>
+
 
             </Card>
             
@@ -464,6 +512,75 @@ export function Dashboard() {
                   <Button variant="outline">
                     <X className="mr-2 h-4 w-4" />
                     Cancelar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="reporte">
+            <Card>
+              <CardHeader>
+                <CardTitle>Reporte de Horas y Eventos Asistidos</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Resumen de Horas</h3>
+                      <p className="text-3xl font-bold text-[#4A9B9B]">{totalHours} Horas Totales</p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Resumen de Partidos</h3>
+                      <p className="text-3xl font-bold text-[#4A9B9B]">{totalMatches} Partidos Totales</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Gráfico de Horas y Partidos por Evento</h3>
+                  
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={chartData}>
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="hours" fill="#4A9B9B" name="Horas" />
+                        <Bar dataKey="matches" fill="#4B9B" name="Partidos" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                    
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">Eventos Asistidos</h3>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Fecha</TableHead>
+                          <TableHead>ID del Evento</TableHead>
+                          <TableHead>Nombre del Evento</TableHead>
+                          <TableHead>Tipo</TableHead>
+                          <TableHead>Horas Acreditadas</TableHead>
+                          <TableHead>Partidos Acreditados</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {attendedEvents.map((event) => (
+                          <TableRow key={event.id}>
+                            <TableCell>{event.date}</TableCell>
+                            <TableCell>{event.id}</TableCell>
+                            <TableCell>{event.name}</TableCell>
+                            <TableCell>{event.type}</TableCell>
+                            <TableCell>{event.hours > 0 ? event.hours : '-'}</TableCell>
+                            <TableCell>{event.matches > 0 ? event.matches : '-'}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  <Button className="bg-[#4A9B9B] text-white hover:bg-[#4A9B9B]/90">
+                    <Download className="mr-2 h-4 w-4" />
+                    Descargar Reporte Completo
                   </Button>
                 </div>
               </CardContent>

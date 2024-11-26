@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { X } from 'lucide-react'
 
+
 export function LoginEstudianteView() {
   const router = useRouter()
   const [cif, setCif] = useState("")
