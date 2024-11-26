@@ -40,9 +40,9 @@ const events = [
   { id: 'VOLL101', name: 'Jaguares vs Leones', attendance: 120, cupos: 150, date: '1/11/2024', type: 'Deportivo' },
   { id: 'BASK102', name: 'Jaguares vs Real Estelí',  attendance: 120, cupos: 150, date: '5/11/2024', type: 'Deportivo' },
   { id: 'CNCA202', name: 'Visita a Hospital', attendance: 80, cupos: 150, date: '2/11/2024', type: 'Voluntariado' },
-  { id: 'UNCF103', name: 'Donación de Libros', attendance: 120, cupos: 150, date: '10/11/2024', type: 'Donación' },
-  { id: 'CR104', name: 'Donación de Sangre',  attendance: 300, cupos: 300, date: '15/11/2024', type: 'Donación' },
-  { id: 'SOC107', name: 'Apoyo Comunitario',  attendance: 250, cupos: 200, date: '25/11/2024', type: 'Social' }
+  { id: 'UNCF103', name: 'Congreso de IA', attendance: 120, cupos: 150, date: '10/11/2024', type: 'Tecnologia' },
+  { id: 'CR104', name: 'Donación de Sangre',  attendance: 300, cupos: 300, date: '15/11/2024', type: 'Voluntariado' },
+  { id: 'SOC107', name: 'Apoyo Comunitario',  attendance: 200, cupos: 200, date: '25/11/2024', type: 'Social' }
 ];
 
 // Agrupar los eventos por tipo y sumar la asistencia y los cupos

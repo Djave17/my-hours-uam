@@ -53,8 +53,8 @@ export function Dashboard() {
     { id: 'VOLL101', name: 'Jaguares vs Leones', hours: 0, matches: 2, date: '1/11/2024', type: 'Deportivo' },
     { id: 'BASK102', name: 'Jaguares vs Real Estelí', hours: 0, matches: 2, date: '5/11/2024', type: 'Deportivo' },
     { id: 'CNCA202', name: 'Visita a Hospital', hours: 4, matches: 0, date: '2/11/2024', type: 'Voluntariado' },
-    { id: 'UNCF103', name: 'Donación de Libros', hours: 2, matches: 0, date: '10/11/2024', type: 'Donación' },
-    { id: 'CR104', name: 'Donación de Sangre', hours: 5, matches: 0, date: '15/11/2024', type: 'Donación' },
+    { id: 'UNCF103', name: 'Donación de Libros', hours: 2, matches: 0, date: '10/11/2024', type: 'Voluntariado' },
+    { id: 'CR104', name: 'Donación de Sangre', hours: 5, matches: 0, date: '15/11/2024', type: 'Voluntariado' },
     { id: 'SOC107', name: 'Apoyo Comunitario', hours: 6, matches: 0, date: '25/11/2024', type: 'Social' }
   ];
 
